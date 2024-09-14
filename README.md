@@ -1,23 +1,10 @@
-# Nutri-Management [Microservices | Spring Boot 3 | Spring Cloud]
 
+---
+# Health Management Microservices
 ## Overview
-
-Nutri-Management is a scalable microservices-based system designed to manage nutrition plans and patient appointments, along with payment and notification services. It leverages Spring Boot 3, Spring Cloud, Kafka, and other modern technologies to provide a resilient, distributed, and highly available solution.
-
-The system handles the following core functionalities:
-
-- User and patient management
-- Appointment scheduling
-- Payment processing
-- Asynchronous communication for notifications
-- Distributed tracing using Zipkin
-- Centralized configuration management with Config Server
-- Service discovery via Eureka
-
-## Architecture
+This project is a health management system built using **Spring Boot** and **Spring Cloud** to follow the microservices architecture. It is designed to handle various healthcare processes, such as managing patients, appointments, tracking patient records, handling prescriptions (recipes), and making payments. The system also supports event-driven communication using **Kafka** for asynchronous messaging and **Zipkin** for distributed tracing.
 
 ### Components
-
 - **API Gateway (API GW)**: Acts as the single entry point for client requests. It routes traffic to various microservices such as User, Patient, and Appointment services.
 - **User Service**: Manages user information and roles within the system.
 - **Patient Service**: Handles patient-related data, such as profiles and medical history.
@@ -29,100 +16,95 @@ The system handles the following core functionalities:
 - **Eureka Server**: Service discovery component that registers all microservices, enabling them to find and communicate with each other dynamically.
 - **Config Server**: Centralized management of configuration properties for all services in the system.
 
-### Flow
-
-1. **User & Patient Management**:
-    - Clients send requests via the API Gateway to `/users` or `/patients`, which are handled by the **User** and **Patient** microservices.
-
-2. **Appointment Scheduling**:
-    - The **Appointment** service manages requests sent to `/appointments`. Appointments are stored and retrieved from MongoDB.
-
-3. **Payment Processing**:
-    - The **Payment** service handles payment transactions and sends confirmation messages asynchronously to the **Notification** service via the **Message Broker** (Kafka).
-
-4. **Notifications**:
-    - The **Notification** service listens to the **Message Broker** for appointment or payment events. Notifications are sent to users and stored in MongoDB.
-
-5. **Distributed Tracing**:
-    - Every request is traced using **Zipkin** to allow monitoring of request propagation across services for improved observability.
-
-6. **Configuration & Discovery**:
-    - **Config Server** manages application configuration for all microservices.
-    - **Eureka Server** is responsible for service registration and discovery, enabling each microservice to find others within the private network.
-
-![Arquitectura del Proyecto](./diagrams/Nutrioologo-Global-Architecture.drawio.svg)
 
 ## Technologies
 
 - **Spring Boot 3**: For developing individual microservices.
 - **Spring Cloud**: For managing service discovery, configuration, and communication between microservices.
 - **Kafka**: Message broker used for asynchronous communication between services.
-- **MongoDB**: NoSQL database used by Appointment and Notification services for persistence.
+- **MongoDB**: NoSQL database used by Appointment Recipe and Notification services for persistence.
 - **Zipkin**: For distributed tracing and monitoring.
 - **Eureka**: Service registry to allow microservices to discover and communicate with each other.
 - **Config Server**: Centralized configuration management for all microservices.
+- **Java 17**
+- **Maven**
+- **MySQL** (User and Patient data)
+- **Postgres** (Appointment data)
+- **Docker** (For containerized services)
 
-## Prerequisites
+### Architecture Diagram
+![Architecture Diagram](diagrams/Nutrioologo-Global-Architecture.drawio.svg)
 
-- **Java 17+**
-- **Maven 3+**
-- **Docker & Docker Compose**
-- **Kafka** (locally or through a Docker setup)
-- **MongoDB** (locally or through a Docker setup)
+### Flow of Communication
 
-## Running the Application
+1. **User and Patient Management**: Users access the system via the API Gateway, which routes requests to the **User** and **Patient** services. Each user manages their own set of patients.
 
-### With Docker
+2. **Appointments**: The **Appointment Service** manages patient appointments. When an appointment is created or completed, an event is published to the **Message Broker** (Kafka), ensuring that the **Tracking** and **Recipe Services** are notified.
 
-A `docker-compose.yml` file is provided to orchestrate the startup of all microservices along with supporting infrastructure like Kafka, MongoDB, Zipkin, and Eureka.
+3. **Tracking**: The **Tracking Service** listens for appointment-related events and updates patient activity records accordingly. It can also be accessed directly via the `/tracking/patients/{id}` endpoint to view or update patient tracking data.
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/nutri-management.git
-   ```
+4. **Recipe Management**: The **Recipe Service** handles medical prescriptions or dietary recommendations for patients. It also listens for events from the **Appointment Service** to generate or update prescriptions after an appointment.
 
-2. Navigate to the project root and run:
-   ```bash
-   docker-compose up --build
-   ```
+5. **Payment**: The **Payment Service** manages payments for appointments. Once a payment is confirmed, an event is sent to the **Message Broker** for further processing (e.g., notifications).
 
-3. Access the following services:
+6. **Notifications**: The **Notification Service** listens to events from both the **Appointment** and **Payment Services** to notify patients and doctors about their appointments, prescriptions, or payments.
 
-    - **API Gateway**: `http://localhost:8080`
-    - **Eureka Server**: `http://localhost:8761`
-    - **Zipkin**: `http://localhost:9411`
-    - **Kafka**: Configured for messaging (no direct UI).
+7. **Monitoring**: **Zipkin** is used for distributed tracing across all microservices, providing detailed insights into the request flow across services and helping identify performance bottlenecks.
 
-### Running Without Docker
+### How to Run the Project
 
-1. Start each microservice manually by navigating to each service directory and using Maven:
-   ```bash
-   mvn spring-boot:run
-   ```
+#### 1. Clone the repository
+```bash
+git clone https://github.com/AlfredDev/Management-MicroService.git
+cd your-repository
+```
 
-2. Make sure to run Kafka and MongoDB instances if you are not using Docker.
+#### 2. Build the services
+```bash
+mvn clean install
+```
 
-## Endpoints
+#### 3. Run the microservices
+Each microservice has its own module within the project. You can navigate to each service's directory and run it using Maven, or run all services simultaneously using Docker.
 
-- `/users`: User management (create, update, delete users).
-- `/patients`: Patient management (view, add, edit patient profiles).
-- `/appointments`: Appointment management (schedule, cancel appointments).
-- `/payments`: Payment processing.
+Example for running a service:
 
-## Distributed Tracing
+```bash
+cd user-service
+mvn spring-boot:run
+```
 
-The system uses **Zipkin** to trace requests as they flow across services. You can access the Zipkin dashboard at `http://localhost:9411` to visualize traces, latency, and dependencies.
+#### 4. Accessing the Application
+- **API Gateway**: `http://localhost:8080`
+- **Zipkin**: `http://localhost:9411`
+- **Kafka**: `localhost:9092` (for message broker communication)
 
-## Service Discovery
+## API Endpoints
 
-The **Eureka Server** allows services to register and discover each other. Visit `http://localhost:8761` to view registered services and their statuses.
+Here are some key API endpoints exposed via the API Gateway:
 
-## Future Improvements
+- **User**: `GET /users/{id}`
+- **Patient**: `GET /patients/{id}`
+- **Tracking**: `GET /tracking/patients/{id}`
+- **Recipe**: `GET /recipes/patients/{id}`
+- **Appointment**: `POST /appointments`
+- **Payment**: `POST /payments`
 
-- Implement authorization and authentication mechanisms (e.g., OAuth2, JWT).
-- Add a front-end application for user interaction.
-- Extend the microservices to handle more complex nutrition management features like diet tracking and reports.
+Refer to the Swagger documentation for full API details.
 
+## Event-Driven Communication
+The project utilizes **Kafka** to enable asynchronous messaging between services. Key events include:
+- **Appointment Service**: Sends appointment creation and completion events.
+- **Payment Service**: Sends payment confirmation events.
+- **Tracking & Recipe Services**: Listen for appointment events to update medical records and prescriptions.
+
+## Monitoring & Distributed Tracing
+The project integrates with **Zipkin** to provide distributed tracing and performance monitoring. Each service sends tracing data to the Zipkin server to allow detailed insight into request flows and bottlenecks.
+
+## Further Enhancements
+- Adding **Resilience4j** or **Hystrix** for fault tolerance.
+- Implementing **OAuth2** for securing API requests.
+
+## License
+This project is licensed under the MIT License.
 ---
-
-This README provides a detailed overview of the system, instructions for running it, and descriptions of each service within the microservices architecture. Let me know if you need any more customization!
