@@ -1,0 +1,13 @@
+server:
+  port: 8032
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: alfred
+    username: alfred
+    url: jdbc:postgresql://localhost:5435/patients
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
