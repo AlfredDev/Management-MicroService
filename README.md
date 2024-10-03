@@ -56,7 +56,6 @@ This project is a health management system built using **Spring Boot** and **Spr
 #### 1. Clone the repository
 ```bash
 git clone https://github.com/AlfredDev/Management-MicroService.git
-cd your-repository
 ```
 
 #### 2. Build the services

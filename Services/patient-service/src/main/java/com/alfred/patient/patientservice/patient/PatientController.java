@@ -38,7 +38,7 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getAllPatients());
     }
 
-    @GetMapping("/{patient-Id}")
+    @GetMapping("/{patient-id}")
     public ResponseEntity<PatientResponse> getPatientById(
             @PathVariable("patient-id") Integer patientId
     ) {

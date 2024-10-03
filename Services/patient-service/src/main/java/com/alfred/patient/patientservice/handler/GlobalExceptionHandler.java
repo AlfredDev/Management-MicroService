@@ -1,5 +1,6 @@
 package com.alfred.patient.patientservice.handler;
 
+import com.alfred.patient.patientservice.handler.Exception.HealthNotFoundException;
 import com.alfred.patient.patientservice.handler.Exception.PatientNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,6 +21,14 @@ public class GlobalExceptionHandler {
                 .status(NOT_FOUND)
                 .body(exp.getMessage());
     }
+
+    @ExceptionHandler(HealthNotFoundException.class)
+    public ResponseEntity<String> handlePatientNotFound(HealthNotFoundException exp) {
+        return ResponseEntity
+                .status(NOT_FOUND)
+                .body(exp.getMessage());
+    }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException exp) {

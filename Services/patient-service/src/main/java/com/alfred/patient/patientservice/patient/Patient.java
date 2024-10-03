@@ -1,5 +1,6 @@
 package com.alfred.patient.patientservice.patient;
 
+import com.alfred.patient.patientservice.Health.HealthRecord;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -30,4 +31,8 @@ public class Patient {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime updateAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "health_record_id", referencedColumnName = "id")
+    private HealthRecord healthRecord;
 }
