@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,7 +44,7 @@ public class HealthRecord {
             joinColumns = @JoinColumn(name = "record_id"),
             inverseJoinColumns = @JoinColumn(name = "allergic_id")
     )
-    private Set<Allergic> allergics;
+    private List<Allergic> allergics;
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;

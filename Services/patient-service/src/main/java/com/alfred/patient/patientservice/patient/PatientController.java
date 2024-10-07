@@ -51,5 +51,4 @@ public class PatientController {
         return ResponseEntity.accepted().build();
     }
 
-
 }

@@ -10,7 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 
 @Service
 @RequiredArgsConstructor
@@ -50,7 +50,7 @@ public class HealthRecordService {
     }
 
 
-    public HealthRecordResponse getHealthRecordBYPatient(Integer patientId) {
+    public HealthRecordResponse getHealthRecordBYPatientId(Integer patientId) {
         var healthRecord = healthRecordRepository.findByPatientId(patientId)
                 .map(mapper::toHealthRecordResponse)
                 .orElseThrow(() -> new HealthNotFoundException(
@@ -70,7 +70,7 @@ public class HealthRecordService {
     }
 
     private void assignAllergies(HealthRecord healthRecord, HealthRequest request) {
-        var allergicsSet = new HashSet<Allergic>();
+        var allergicsSet = new ArrayList<Allergic>();
         for (String allergicName : request.allergics()) {
             Allergic allergic = allergicRepository.findByName(allergicName)
                     .orElseGet(() -> allergicRepository.save(

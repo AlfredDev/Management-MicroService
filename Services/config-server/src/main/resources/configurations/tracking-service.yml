@@ -1,10 +1,18 @@
-datasource:
-  driver-class-name: org.postgresql.Driver
-  password: alfred
-  username: alfred
-  url: jdbc:postgresql://localhost:5435/patients
-jpa:
-  hibernate:
-    ddl-auto: update
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
-  database: postgresql
+server:
+  port: 8987
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: alfred
+    username: alfred
+    url: jdbc:postgresql://localhost:5435/tracking
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+
+
+application:
+  config:
+    patient-service: http://localhost:8032/api/v1/patients

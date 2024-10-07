@@ -1,5 +1,6 @@
 package com.alfred.patient.patientservice.patient;
 
+import com.alfred.patient.patientservice.Health.HealthRecord;
 import com.alfred.patient.patientservice.handler.Exception.PatientNotFoundException;
 import com.alfred.patient.patientservice.patient.dto.PatientRequest;
 import com.alfred.patient.patientservice.patient.dto.PatientResponse;
@@ -26,6 +27,8 @@ public class PatientService {
 
     public int savePatient(PatientRequest request) {
         var patient = this.mapper.toPatient(request);
+        var health = new HealthRecord();
+        patient.setHealthRecord(health);
         return this.repository.save(patient).getId();
     }
 
