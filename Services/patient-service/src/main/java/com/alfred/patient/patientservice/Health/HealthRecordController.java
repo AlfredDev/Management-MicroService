@@ -29,7 +29,7 @@ public class HealthRecordController {
         return ResponseEntity.ok().body(service.getHealthRecordById(id));
     }
 
-    @GetMapping("record/{patient-id}}")
+    @GetMapping("record/{patient-id}")
     public ResponseEntity<HealthRecordResponse> getHealthRecordByPatientId(
             @PathVariable("patient-id") Integer patientId) {
         return ResponseEntity.ok().body(service.getHealthRecordBYPatientId(patientId));

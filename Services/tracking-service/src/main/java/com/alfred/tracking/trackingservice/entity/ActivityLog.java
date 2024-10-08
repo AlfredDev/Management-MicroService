@@ -31,10 +31,9 @@ public class ActivityLog {
     @Temporal(TemporalType.DATE)
     private LocalDate date;
 
-    @Column(name = "activity_type",
-            nullable = false,
-            length = 50)
-    private String activityType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "activity_type", nullable = false)
+    private ActivityType activityType;
 
     @Column(nullable = false)
     private int duration;
