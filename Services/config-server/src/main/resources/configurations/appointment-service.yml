@@ -1,0 +1,28 @@
+server:
+  port: 8090
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  data:
+    mongodb:
+      username: alfred
+      password: alfred
+      host: localhost
+      port: 27017
+      database: appointment
+      authentication-database: admin
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.type.mapping: appointmentConfirmation:com.alfred.ppointment.appointmentservice.kafka.AppointmentConfirmation
+
+application:
+  config:
+    patient-service: http://localhost:8032/api/v1/patients
+    payment-url: http://localhost:8222/api/v1/payments

@@ -1,0 +1,29 @@
+server:
+  port: 8222
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: patient-service-patients
+          uri: lb://PATIENT-SERVICE
+          predicates:
+            - Path=/api/v1/patients/**
+        - id: patient-service-health
+          uri: lb://PATIENT-SERVICE
+          predicates:
+            - Path=/api/v1/health/**
+        - id: tracking-service
+          uri: lb:http://TRACKING-SERVICE
+          predicates:
+            - Path=/api/v1/activities/**
+        - id: appointment-service
+          uri: lb:http://APPOINTMENT-SERVICE
+          predicates:
+            - Path=/api/v1/appointments/**
+        - id: payment-service
+          uri: lb:http://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/v1/payments/**
