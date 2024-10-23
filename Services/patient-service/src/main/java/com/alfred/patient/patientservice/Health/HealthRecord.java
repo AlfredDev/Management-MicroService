@@ -26,7 +26,7 @@ public class HealthRecord {
     private double height;
     private String chronicCondition;
     @LastModifiedDate
-    @Column(insertable = false, updatable = false)
+    @Column(insertable = false)
     private LocalDateTime updateAt;
 
     @Transient
