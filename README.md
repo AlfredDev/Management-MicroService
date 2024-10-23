@@ -33,7 +33,7 @@ This project is a health management system built using **Spring Boot** and **Spr
 - **Docker** (For containerized services)
 
 ### Architecture Diagram
-![Architecture Diagram](diagrams/Nutrioologo-Global-Architecture.drawio.svg)
+![Architecture Diagram](diagrams/diagram.svg)
 
 ### Flow of Communication
 
