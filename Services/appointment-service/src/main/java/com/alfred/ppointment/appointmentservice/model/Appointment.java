@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Document
 public class Appointment {
     @Id
-    private Integer id;
+    private String id;
 
     private Integer patientId;
 

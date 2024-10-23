@@ -1,7 +1,8 @@
-package com.alfred.ppointment.appointmentservice.kafka;
+package com.alfred.notification.notificationservice.kafka.appintment;
 
-import com.alfred.ppointment.appointmentservice.model.AppointmentStatus;
+import com.alfred.notification.notificationservice.kafka.payment.PaymentMethod;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record AppointmentConfirmation(
@@ -12,4 +13,5 @@ public record AppointmentConfirmation(
         String notes,
         Double price
 ) {
+
 }

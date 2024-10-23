@@ -6,10 +6,12 @@ import com.alfred.payment.payment.notification.NotificationProducer;
 import com.alfred.payment.payment.notification.PaymentNotificationRequest;
 import com.alfred.payment.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper mapper;
@@ -17,7 +19,7 @@ public class PaymentService {
 
     public Integer createPayment(PaymentRequest request) {
         var payment = this.paymentRepository.save(this.mapper.toPayment(request));
-
+        log.info(request.patient().toString());
         notificationProducer.sendNotification(
                 new PaymentNotificationRequest(
                         request.amount(),

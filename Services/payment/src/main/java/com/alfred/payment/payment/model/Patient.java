@@ -13,8 +13,12 @@ public record Patient(
         String firstName,
         @NotNull(message = "Lastname is required")
         String lastName,
+        Integer age,
+        String gender,
         @NotNull(message = "Email is required")
         @Email(message = "The customer email is not correctly formatted")
-        String email
+        String email,
+        LocalDateTime createAt,
+        LocalDateTime updateAt
 ) {
 }

@@ -14,6 +14,7 @@ import com.alfred.ppointment.appointmentservice.payment.PaymentRequest;
 import com.alfred.ppointment.appointmentservice.repository.AppointmentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AppointmentService {
 
     private final AppointmentRepository repository;
@@ -30,10 +32,11 @@ public class AppointmentService {
     private final AppointmentProducer appointmentProducer;
 
     @Transactional
-    public Integer createAppointment(AppointmentRequest request) {
+    public String createAppointment(AppointmentRequest request) {
         var patient = client.findPatientById(request.patientId())
                 .orElseThrow(() -> new BusinessException("Can not create appointment, patient not found with id " + request.patientId()));
-
+        log.info(patient.toString());
+        System.out.println(patient.toString());
         var appointment = repository.save(this.mapper.toAppointment(request));
 
         var paymentRequest = new PaymentRequest(
@@ -42,6 +45,10 @@ public class AppointmentService {
                 appointment.getId(),
                 patient
         );
+
+        log.info(paymentRequest.toString());
+        System.out.println(paymentRequest.toString());
+
 
         paymentClient.requestOrderPayment(paymentRequest);
 

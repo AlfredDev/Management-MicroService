@@ -28,6 +28,7 @@ public class PatientService {
     public int savePatient(PatientRequest request) {
         var patient = this.mapper.toPatient(request);
         var health = new HealthRecord();
+        health.setPatient(patient);
         patient.setHealthRecord(health);
         return this.repository.save(patient).getId();
     }

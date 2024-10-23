@@ -18,8 +18,8 @@ public class AppointmentController {
     private final AppointmentService service;
 
     @PostMapping
-    public ResponseEntity<Integer> createAppointment(@RequestBody AppointmentRequest request) {
-        Integer appointmentId = service.createAppointment(request);
+    public ResponseEntity<String> createAppointment(@RequestBody AppointmentRequest request) {
+        String appointmentId = service.createAppointment(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(appointmentId);
     }
 

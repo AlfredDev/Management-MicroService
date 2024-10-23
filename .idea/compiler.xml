@@ -14,6 +14,7 @@
         <module name="payment" />
         <module name="user-service" />
         <module name="gateway" />
+        <module name="notification-service" />
         <module name="tracking-service" />
       </profile>
     </annotationProcessing>
@@ -24,6 +25,7 @@
       <module name="config-server" options="-parameters" />
       <module name="discovery" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
       <module name="patient-service" options="-parameters" />
       <module name="payment" options="-parameters" />
       <module name="tracking-service" options="-parameters" />

@@ -5,7 +5,7 @@ import com.alfred.ppointment.appointmentservice.model.AppointmentStatus;
 import java.time.LocalDateTime;
 
 public record AppointmentResponse(
-        Integer id,
+        String id,
 
         Integer patientId,
 

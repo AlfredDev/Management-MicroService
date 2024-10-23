@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public record PaymentRequest(
         double amount,
         PaymentMethod paymentMethod,
-        Integer appointmentId,
-        PatientResponse customer
+        String appointmentId,
+        PatientResponse patient
 ) {
 }
