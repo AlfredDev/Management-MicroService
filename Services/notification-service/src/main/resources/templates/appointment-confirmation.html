@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        .email-header {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .email-body {
+            margin: 20px 0;
+        }
+        .email-footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+        .appointment-details {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="email-header">
+        <h1>Appointment Confirmation</h1>
+    </div>
+    <div class="email-body">
+        <p>Dear <strong th:text="${patientName}">Patient</strong>,</p>
+        <p>We are pleased to confirm your appointment.</p>
+        <div class="appointment-details">
+            <p><strong>Date:</strong> <span th:text="${#temporals.format(appointmentDate, 'MMMM d, yyyy - HH:mm')}">Date</span></p>
+            <p><strong>Status:</strong> <span th:text="${status}">Confirmed</span></p>
+            <p><strong>Notes:</strong> <span th:text="${notes}">Special instructions or details</span></p>
+            <p><strong>Price:</strong> <span th:text="${amount}">$0.00</span></p>
+            <p><strong>Reference:</strong> <span th:text="${orderReference}">Reference Code</span></p>
+        </div>
+        <p>If you have any questions or need to reschedule, feel free to contact us.</p>
+    </div>
+    <div class="email-footer">
+        <p>&copy; 2024 Your Medical Clinic. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

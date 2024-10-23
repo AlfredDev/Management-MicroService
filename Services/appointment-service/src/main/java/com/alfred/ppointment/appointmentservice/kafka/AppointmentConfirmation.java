@@ -6,7 +6,8 @@ import java.time.LocalDateTime;
 
 public record AppointmentConfirmation(
         String appointmentId,
-        Integer patientId,
+        String patientName,
+        String patientEmail,
         LocalDateTime appointmentDate,
         AppointmentStatus status,
         String notes,

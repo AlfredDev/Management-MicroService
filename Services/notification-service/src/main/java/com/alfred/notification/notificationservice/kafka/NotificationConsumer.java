@@ -1,6 +1,7 @@
 package com.alfred.notification.notificationservice.kafka;
 
 import com.alfred.notification.notificationservice.email.EmailService;
+import com.alfred.notification.notificationservice.kafka.appintment.AppointmentConfirmation;
 import com.alfred.notification.notificationservice.kafka.payment.PaymentConfirmation;
 import com.alfred.notification.notificationservice.notification.Notification;
 import com.alfred.notification.notificationservice.notification.NotificationRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+import static com.alfred.notification.notificationservice.notification.NotificationType.APPOINTMENT_CONFIRMATION;
 import static com.alfred.notification.notificationservice.notification.NotificationType.PAYMENT_CONFIRMATION;
 import static java.lang.String.format;
 
@@ -43,5 +45,28 @@ public class NotificationConsumer {
                 paymentConfirmation.patientEmail(),
                 patientName,
                 paymentConfirmation.amount());
+    }
+
+    @KafkaListener(topics = "appointment-topic")
+    public  void  consumeAppointmentTopic(AppointmentConfirmation appointmentConfirmation) throws MessagingException {
+        log.info(format("Consuming the message from appointment-topic Topic:: %s", appointmentConfirmation));
+        repository.save(
+                Notification.builder()
+                        .type(APPOINTMENT_CONFIRMATION)
+                        .notificationDate(LocalDateTime.now())
+                        .appointmentConfirmation(appointmentConfirmation)
+                        .build()
+        );
+
+        emailService.sendAppointmentConfirmationEmail(
+                appointmentConfirmation.patientEmail(),
+                appointmentConfirmation.patientName(),
+                appointmentConfirmation.appointmentDate(),
+                appointmentConfirmation.status(),
+                appointmentConfirmation.notes(),
+                appointmentConfirmation.price(),
+                appointmentConfirmation.appointmentId()
+        );
+
     }
 }

@@ -55,7 +55,8 @@ public class AppointmentService {
         appointmentProducer.sendAppointmentConfirmation(
                 new AppointmentConfirmation(
                         appointment.getId(),
-                        patient.id(),
+                        patient.firstName() + " " + patient.lastName(),
+                        patient.email(),
                         request.appointmentDate(),
                         appointment.getStatus(),
                         request.notes(),
