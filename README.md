@@ -6,7 +6,6 @@ This project is a health management system built using **Spring Boot** and **Spr
 
 ### Components
 - **API Gateway (API GW)**: Acts as the single entry point for client requests. It routes traffic to various microservices such as User, Patient, and Appointment services.
-- **User Service**: Manages user information and roles within the system.
 - **Patient Service**: Handles patient-related data, such as profiles and medical history.
 - **Appointment Service**: Manages appointments, including scheduling and retrieval of appointments from MongoDB.
 - **Payment Service**: Processes payments and sends confirmation messages asynchronously via the message broker (Kafka).
